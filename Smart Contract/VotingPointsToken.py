@@ -135,27 +135,7 @@ class FA12_pause(FA12_core):
 
 
 class FA12_token_metadata(FA12_core):
-    """
-        SPEC: https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md#token-metadata
-
-        Token-specific metadata is stored/presented as a Michelson value of type (map string bytes).
-
-        A few of the keys are reserved and predefined:
-
-        >>    ""          : Should correspond to a TZIP-016 URI which points to a JSON representation of the token
-                            metadata.
-
-        >>    "name"      : Should be a UTF-8 string giving a “display name” to the token.
-
-        >>    "symbol"    : Should be a UTF-8 string for the short identifier of the token (e.g. XTZ, EUR, …).
-
-        >>    "decimals"  : Should be an integer (converted to a UTF-8 string in decimal) which defines the position of                   the decimal point in token balances for displaypurposes.
-    """
     def set_token_metadata(self, metadata):
-        """
-            Store the token_metadata values in a big-map annotated %token_metadata
-            of type (big_map nat (pair (nat %token_id) (map %token_info string bytes))).
-        """
         self.update_initial_storage(
             token_metadata = sp.big_map(
                 {
