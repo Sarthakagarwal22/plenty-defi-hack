@@ -1,0 +1,12 @@
+{
+    "name": "Voting Points Token",
+    "description": "Voting Points Token for DeFining Art project",
+    "authors": [
+        "Team DeFining Art"
+    ],
+    "homepage": "https://smartpy.io",
+    "interfaces": [
+        "TZIP-007-2021-04-17",
+        "TZIP-016-2021-04-17"
+    ]
+}

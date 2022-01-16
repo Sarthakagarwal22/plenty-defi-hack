@@ -186,11 +186,6 @@ class FA12_token_metadata(FA12_core):
 
 
 class FA12_contract_metadata(FA12_core):
-    """
-        SPEC: https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-16/tzip-16.md
-
-        This class offers utilities to define and set TZIP-016 contract metadata.
-    """
     def generate_tzip16_metadata(self):
         metadata = {
             **TZIP16_Metadata_Base
@@ -242,24 +237,23 @@ if "templates" not in __name__:
     def test():
 
         scenario = sp.test_scenario()
-        scenario.h1("FA1.2 template - Fungible assets")
+        scenario.h1("FA1.2 Token - Fungible assets")
 
-        scenario.table_of_contents()
-
-        # sp.test_account generates ED25519 key-pairs deterministically:
         admin = sp.address('tz1XKnBMk5ewiMJY2j4RaomRPy2ePMCc9jSW')
 
         scenario.h1("Contract")
+        
         token_metadata = {
             "decimals"    : "18",               # Mandatory by the spec
-            "name"        : "Test Wala Token",  # Recommended
-            "symbol"      : "TWT",              # Recommended
+            "name"        : "Voting Points",    # Recommended
+            "symbol"      : "VP",               # Recommended
             # Extra fields
             "icon"        : 'https://i.ibb.co/Xt8dh02/Whats-App-Image-2022-01-11-at-1-55-02-AM.jpg'
         }
         contract_metadata = {
             "" : "ipfs://bafkreibd6h3lwtyjzfh2ts47prtdzmooi54rjgqytnvbil3cuvjg2tkbd4",
         }
+        
         c1 = FA12(
             admin,
             config              = FA12_config(),
