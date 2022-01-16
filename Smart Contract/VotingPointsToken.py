@@ -2,24 +2,6 @@
 # Inspired by https://gitlab.com/tzip/tzip/blob/master/A/FA1.2.md
 import smartpy as sp
 
-
-# The metadata below is just an example, it serves as a base,
-# the contents are used to build the metadata JSON that users
-# can copy and upload to IPFS.
-TZIP16_Metadata_Base = {
-    "name"          : "SmartPy FA1.2 Token Template",
-    "description"   : "Template for an FA1.2 Contract from SmartPy",
-    "authors"       : [
-        "SmartPy Dev Team <email@domain.com>"
-    ],
-    "homepage"      : "https://smartpy.io",
-    "interfaces"    : [
-        "TZIP-007-2021-04-17",
-        "TZIP-016-2021-04-17"
-    ],
-}
-
-
 class FA12_Error:
     def make(s): return ("FA1.2_" + s)
 
@@ -186,12 +168,6 @@ class FA12_token_metadata(FA12_core):
 
 
 class FA12_contract_metadata(FA12_core):
-    def generate_tzip16_metadata(self):
-        metadata = {
-            **TZIP16_Metadata_Base
-        }
-        self.init_metadata("metadata", metadata)
-
     def set_contract_metadata(self, metadata):
         self.update_initial_storage(
             metadata = sp.big_map(self.normalize_metadata(metadata))
@@ -226,10 +202,6 @@ class FA12(
             self.set_token_metadata(token_metadata)
         if contract_metadata is not None:
             self.set_contract_metadata(contract_metadata)
-
-        # This is only an helper, it produces metadata in the output panel
-        # that users can copy and upload to IPFS.
-        self.generate_tzip16_metadata()
 
 
 if "templates" not in __name__:
