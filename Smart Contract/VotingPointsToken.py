@@ -189,7 +189,7 @@ if "templates" not in __name__:
     def test():
 
         scenario = sp.test_scenario()
-        scenario.h1("FA1.2 Token - Fungible assets")
+        scenario.h1("Voting Points FA1.2 Token - Fungible asset")
 
         admin = sp.address('tz1XKnBMk5ewiMJY2j4RaomRPy2ePMCc9jSW')
 
