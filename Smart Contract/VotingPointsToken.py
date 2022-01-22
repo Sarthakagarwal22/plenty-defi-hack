@@ -38,6 +38,7 @@ class FA12_core(sp.Contract, FA12_common):
         self.init(
             balances = sp.big_map(tvalue = sp.TRecord(approvals = sp.TMap(sp.TAddress, sp.TNat), balance = sp.TNat)),
             totalSupply = 0,
+            imageVPs = sp.big_map(tkey = sp.TString, tvalue = sp.TNat),
             **extra_storage
         )
 
@@ -68,6 +69,10 @@ class FA12_core(sp.Contract, FA12_common):
     def addAddressIfNecessary(self, address):
         sp.if ~ self.data.balances.contains(address):
             self.data.balances[address] = sp.record(balance = 0, approvals = {})
+
+    def addImageIdIfNecessary(self, imageId):
+        sp.if ~ self.data.imageVPs.contains(imageId):
+            self.data.imageVPs[imageId] = sp.nat(0)
 
     @sp.utils.view(sp.TNat)
     def getBalance(self, params):
@@ -105,6 +110,18 @@ class FA12_mint_burn(FA12_core):
         sp.verify(self.data.balances[params.address].balance >= params.value, FA12_Error.InsufficientBalance)
         self.data.balances[params.address].balance = sp.as_nat(self.data.balances[params.address].balance - params.value)
         self.data.totalSupply = sp.as_nat(self.data.totalSupply - params.value)
+
+
+class VP_manager(FA12_core):
+    @sp.entry_point
+    def voteOnImageId(self, params):
+        sp.set_type(params, sp.TRecord(imageId = sp.TString, weight = sp.TNat))
+        self.addAddressIfNecessary(sp.sender)
+        sp.verify(self.data.balances[sp.sender].balance >= params.weight, FA12_Error.InsufficientBalance)
+        self.data.balances[sp.sender].balance = sp.as_nat(self.data.balances[sp.sender].balance - params.weight)
+        self.data.totalSupply = sp.as_nat(self.data.totalSupply - params.weight)
+        self.addImageIdIfNecessary(params.imageId)
+        self.data.imageVPs[params.imageId] += params.weight
 
 
 class FA12_administrator(FA12_core):
@@ -156,6 +173,7 @@ class FA12_contract_metadata(FA12_core):
 
 class FA12(
     FA12_mint_burn,
+    VP_manager,
     FA12_administrator,
     FA12_pause,
     FA12_token_metadata,
@@ -203,7 +221,7 @@ if "templates" not in __name__:
             "icon"        : 'https://i.ibb.co/Xt8dh02/Whats-App-Image-2022-01-11-at-1-55-02-AM.jpg'
         }
         contract_metadata = {
-            "" : "ipfs://bafkreibd6h3lwtyjzfh2ts47prtdzmooi54rjgqytnvbil3cuvjg2tkbd4",
+            "" : "ipfs://bafybeidasp7zepuxwbisuef3nglnefw2gzc356guq6n6zyjjqrnrle2psm/contract_metadata.json",
         }
         
         c1 = FA12(
