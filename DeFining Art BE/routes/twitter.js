@@ -2,10 +2,9 @@ import express from 'express';
 
 const twitterRouter = express.Router();
 
-twitterRouter.get('/getTweets', (req, res) => {
-    let responseObject = {
-        status: 'OK',
-        message: "Server is up and running"
+twitterRouter.post('/getTweetsForDate', (req, res) => {
+    if(!req || !req.date){
+        throw new Error('Invalid Request');
     }
     res.send(responseObject);
 });
