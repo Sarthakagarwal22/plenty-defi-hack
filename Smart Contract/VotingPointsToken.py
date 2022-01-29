@@ -39,6 +39,7 @@ class FA12_core(sp.Contract, FA12_common):
             balances = sp.big_map(tvalue = sp.TRecord(approvals = sp.TMap(sp.TAddress, sp.TNat), balance = sp.TNat)),
             totalSupply = 0,
             imageVPs = sp.big_map(tkey = sp.TString, tvalue = sp.TNat),
+            xPlentyWalletAddress = sp.address('tz1Mh2Bo4QvV6NwHGMMcBrQFGxFbpSAJ45Bz'),
             **extra_storage
         )
 
@@ -122,6 +123,23 @@ class VP_manager(FA12_core):
         self.data.totalSupply = sp.as_nat(self.data.totalSupply - params.weight)
         self.addImageIdIfNecessary(params.imageId)
         self.data.imageVPs[params.imageId] += params.weight
+
+    @sp.entry_point
+    def releaseTodaysVPs(self):
+        self.data.xPlentyWalletAddress = sp.sender
+        xplenty_contract_address = sp.address('KT1K2PdgMbMuNSgTWYsTcoa6Du4KeJNeVC9U')
+        data_type = sp.TRecord(address_34 = sp.TAddress, contract_35 = sp.TContract(sp.TNat))
+        xplenty_contract = sp.contract(data_type, xplenty_contract_address, "getBalance").open_some()
+        self_contract = sp.contract(sp.TNat, sp.to_address(sp.self), "receiveXPlentyBalance").open_some()
+        data_to_be_sent = sp.record(address_34 = sp.sender, contract_35 = self_contract)
+        sp.transfer(data_to_be_sent, sp.mutez(0), xplenty_contract)
+
+    @sp.entry_point
+    def receiveXPlentyBalance(self, params):
+        sp.set_type(params, sp.TNat)
+        self.addAddressIfNecessary(self.data.xPlentyWalletAddress)
+        self.data.balances[self.data.xPlentyWalletAddress].balance += params
+        self.data.totalSupply += params
 
 
 class FA12_administrator(FA12_core):
