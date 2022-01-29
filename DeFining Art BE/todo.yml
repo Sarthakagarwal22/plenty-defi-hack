@@ -1,0 +1,17 @@
+/getTweetsAndgenImg
+
+- check if req is in progress
+- get category for previous day
+- get tweets for category
+    - run a for loop on tweets 
+    - set req is in progress as true in in-memory
+    - return 200 status code and {message: "request queued"}
+    - for every loop get the image from ai for that text
+    - run a fire and forget call to upload the image in ipsf and update image collection for that image
+        - image data : {
+            text: tweet text,
+            imgSrc: ipsf link,
+            date: date
+        }
+- set req not it progress in in-memory
+- get the image array from db and email it to definingarttez@gmail.com

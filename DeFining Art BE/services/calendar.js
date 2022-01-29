@@ -16,8 +16,4 @@ export const updateCategoryonDate = async (date, category) => {
         throw new Error('Invalid Request');
     }
     await eventsModel.findOneAndUpdate({date: date}, {category: category.split(' ').join('')});
-    return {
-        status: "OK",
-        message: "Category updated successfully"
-    };
 }

@@ -6,7 +6,7 @@ const calendarRouter = express.Router();
 
 calendarRouter.post('/getCategory', async (req, res, next) => {
     if(!(req && req.body)){
-        throw new Error('Invalid Body');
+        next(new Error('Invalid Body'));
     }
     try{
     const category = await getCategoryonDate(req.body.date);
@@ -18,11 +18,14 @@ calendarRouter.post('/getCategory', async (req, res, next) => {
 
 calendarRouter.post('/updateCategory', async (req, res, next) => {
     if(!(req && req.body)){
-        throw new Error('Invalid Body');
+        next(new Error('Invalid Body'));
     }
     try{
-    const category = await updateCategoryonDate(req.body.date, req.body.category);
-    res.status(200).send(category);
+    await updateCategoryonDate(req.body.date, req.body.category);
+    res.status(200).send({
+        status: "OK",
+        message: "Category updated successfully"
+    });
     }catch(err){
         next(err);
     }
