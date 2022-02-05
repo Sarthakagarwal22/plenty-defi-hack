@@ -7,6 +7,9 @@ import {
 } from './beacon-functions';
 
 import { fetchPlentyBalanceOfUser, transferPlenty } from './taquito-functions';
+
+import ConnectWallet from './Components/ConnectWallet';
+
 function App() {
   const [walletAddress, setWalletAddress] = useState('');
   const [plentyHolderAddress, setPlentyHolderAddress] = useState('');
@@ -91,7 +94,10 @@ function App() {
     <div className="App">
       <h1>Wallet Actions</h1>
       {!walletAddress ? (
+        <>
+        <ConnectWallet />
         <button onClick={connectWalletHandler}>Connect Wallet</button>
+        </>
       ) : (
         <button onClick={disconnectWalletHandler}>Disconnect Wallet</button>
       )}
