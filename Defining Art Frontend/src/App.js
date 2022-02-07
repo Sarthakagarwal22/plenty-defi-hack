@@ -8,7 +8,7 @@ import {
 
 import { fetchPlentyBalanceOfUser, transferPlenty } from './taquito-functions';
 
-import ConnectWallet from './Components/ConnectWallet';
+import ConnectWallet from './Components/ConnectWallet/ConnectWallet';
 
 function App() {
   const [walletAddress, setWalletAddress] = useState('');
@@ -92,11 +92,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Wallet Actions</h1>
       {!walletAddress ? (
         <>
-        <ConnectWallet />
-        <button onClick={connectWalletHandler}>Connect Wallet</button>
+        <ConnectWallet clickHandler={connectWalletHandler} />
         </>
       ) : (
         <button onClick={disconnectWalletHandler}>Disconnect Wallet</button>
@@ -104,7 +102,7 @@ function App() {
       {walletAddress ? (
         <h3>Connected Wallet Address : {walletAddress}</h3>
       ) : null}
-      <hr />
+      {/* <hr />
       <h1>Get Plenty Balance of User</h1>
       <input
         placeholder={'address'}
@@ -123,7 +121,7 @@ function App() {
         onChange={(event) => receiverAddressInputHandler(event.target.value)}
       />
       <button onClick={transferPlentyHandler}>Send Plenty</button>
-      {transferLoading ? <p>...Loading</p> : null}
+      {transferLoading ? <p>...Loading</p> : null} */}
     </div>
   );
 }

@@ -1,0 +1,60 @@
+.background-image{
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: .25;
+    z-index: -1;
+}
+
+.left-container{
+    background-color: #000;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 0;
+}
+
+.title.big{
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.left-container .description{
+    max-width: 60%;
+    font-size: 1.25rem;
+
+}
+
+.buttons-container{
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+}
+
+.buttons-container .button{
+    border: none;
+    outline: none;
+    padding: 1rem;
+    background: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+}
+
+.buttons-container .button.disabled{
+    opacity: 0.3;
+    cursor: not-allowed;
+}

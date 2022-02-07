@@ -1,0 +1,13 @@
+.bar-container.row{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 3rem;
+    background: #333;
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2rem;
+    padding: 1.5rem 2rem 1rem;
+}
