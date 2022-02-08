@@ -1,0 +1,28 @@
+.homepage-main-container {
+    height: 100%;
+    display: flex;
+}
+.homepage-main-container .left-container{
+    width: 49%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 2rem;
+}
+
+.homepage-main-container .right-container{
+    background: black;
+    background: black;
+    position: relative;
+    z-index: 0;
+    width: 50%;
+}
+
+.homepage-main-container .left-header{
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.homepage-main-container .right-container .background-image{
+    position: absolute;
+}

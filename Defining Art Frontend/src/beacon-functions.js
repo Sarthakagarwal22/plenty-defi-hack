@@ -5,7 +5,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 export const ConnectWalletAPI = async () => {
   try {
     const network = {
-      type: 'mainnet',
+      type: 'hangzhounet',
     };
     const options = {
       name: 'Test App',

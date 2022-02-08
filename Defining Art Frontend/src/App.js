@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useEffect, useState } from 'react';
 import {
   ConnectWalletAPI,
@@ -6,9 +5,11 @@ import {
   FetchWalletAPI,
 } from './beacon-functions';
 
+import {useWalletAddressUpdate} from './Context/walletContext';
 import { fetchPlentyBalanceOfUser, transferPlenty } from './taquito-functions';
 
 import ConnectWallet from './Components/ConnectWallet/ConnectWallet';
+import Homepage from './Components/Homepage/homepage';
 
 function App() {
   const [walletAddress, setWalletAddress] = useState('');
@@ -18,10 +19,12 @@ function App() {
   const [amount, setAmount] = useState(0);
   const [receiverAddress, setReceiverAddress] = useState('');
   const [transferLoading, setTransferLoading] = useState(false);
+  const updateWalletAddress = useWalletAddressUpdate()
 
   useEffect(() => {
     FetchWalletAPI().then((resp) => {
       setWalletAddress(resp.wallet);
+      updateWalletAddress(resp.wallet);
     });
   }, []);
 
@@ -78,30 +81,25 @@ function App() {
     ConnectWalletAPI()
       .then((resp) => {
         setWalletAddress(resp.wallet);
+        updateWalletAddress(resp.wallet);
       })
       .catch((err) => {
         console.log(err);
         setWalletAddress('');
+        updateWalletAddress('');
       });
-  };
-  const disconnectWalletHandler = () => {
-    DisconnectWalletAPI().then((resp) => {
-      setWalletAddress('');
-    });
   };
 
   return (
     <div className="App">
       {!walletAddress ? (
-        <>
         <ConnectWallet clickHandler={connectWalletHandler} />
-        </>
       ) : (
-        <button onClick={disconnectWalletHandler}>Disconnect Wallet</button>
-      )}
-      {walletAddress ? (
-        <h3>Connected Wallet Address : {walletAddress}</h3>
-      ) : null}
+        <>
+        <Homepage />
+        </>
+      )
+      }
       {/* <hr />
       <h1>Get Plenty Balance of User</h1>
       <input
