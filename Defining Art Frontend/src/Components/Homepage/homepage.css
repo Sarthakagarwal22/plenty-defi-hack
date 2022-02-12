@@ -7,6 +7,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding-left: 2rem;
+    padding-top: 10%;
 }
 
 .homepage-main-container .right-container{
@@ -21,6 +22,29 @@
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 1rem;
+}
+
+.left-description{
+    width:70%;
+}
+
+.homepage-main-container .left-container .buttons-container{
+    padding-top: 5rem;
+    padding-left: 0;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.homepage-main-container .left-container .buttons-container .button{
+    font-size: 1.5rem;
+    width: 20rem;
+    color: white;
+    background: linear-gradient(100.44deg,#f8b67f,#ff5451 33.57%,#ee1ec0 67.02%,#a02cfc 103.97%);
+    border-radius: 5px;
+}
+
+.homepage-main-container .left-container .buttons-container .button.unstake_xplenty{
+    background: #6202ef;
 }
 
 .homepage-main-container .right-container .background-image{

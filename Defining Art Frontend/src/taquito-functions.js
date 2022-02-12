@@ -1,13 +1,13 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
-const rpcNode = 'https://tezos-prod.cryptonomic-infra.tech/';
+const rpcNode = 'https://hangzhounet.smartpy.io/';
 
 // This function fetches plenty balance of any address for you.
 export const fetchPlentyBalanceOfUser = async (userAddress) => {
   try {
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setProvider(rpcNode);
-    const plentyContractAddress = 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b';
+    const plentyContractAddress = 'KT1Mdk7TfHjbwb2ciTTsySj9gV9W9uc7HxCu';
     let userBalance = 0;
     const plentyTokenDecimal = 18;
     const plentyContractInstance = await Tezos.contract.at(
@@ -36,7 +36,7 @@ export const fetchPlentyBalanceOfUser = async (userAddress) => {
 const CheckIfWalletConnected = async (wallet) => {
   try {
     const network = {
-      type: 'mainnet',
+      type: 'hangzhounet',
     };
     const activeAccount = await wallet.client.getActiveAccount();
     if (!activeAccount) {

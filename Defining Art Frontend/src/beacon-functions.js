@@ -37,7 +37,7 @@ export const ConnectWalletAPI = async () => {
 export const DisconnectWalletAPI = async () => {
   try {
     const options = {
-      name: 'mainnet',
+      name: 'hangzhounet',
     };
     const wallet = new BeaconWallet(options);
     await wallet.disconnect();
