@@ -40,6 +40,7 @@ class FA12_core(sp.Contract, FA12_common):
             totalSupply = 0,
             imageVPs = sp.big_map(tkey = sp.TString, tvalue = sp.TNat),
             xPlentyWalletAddress = sp.address('tz1Mh2Bo4QvV6NwHGMMcBrQFGxFbpSAJ45Bz'),
+            imageVoters = sp.map(tkey = sp.TString, tvalue = sp.TMap(sp.TAddress, sp.TNat)),
             **extra_storage
         )
 
@@ -74,6 +75,10 @@ class FA12_core(sp.Contract, FA12_common):
     def addImageIdIfNecessary(self, imageId):
         sp.if ~ self.data.imageVPs.contains(imageId):
             self.data.imageVPs[imageId] = sp.nat(0)
+        sp.if ~ self.data.imageVoters.contains(imageId):
+            self.data.imageVoters[imageId] = sp.map({ sp.sender: sp.nat(0)})
+        sp.if ~ self.data.imageVoters[imageId].contains(sp.sender):
+            self.data.imageVoters[imageId][sp.sender] = sp.nat(0)
 
     @sp.utils.view(sp.TNat)
     def getBalance(self, params):
@@ -118,11 +123,13 @@ class VP_manager(FA12_core):
     def voteOnImageId(self, params):
         sp.set_type(params, sp.TRecord(imageId = sp.TString, weight = sp.TNat))
         self.addAddressIfNecessary(sp.sender)
+        sp.verify(params.weight > sp.nat(0), FA12_Error.NotAllowed)
         sp.verify(self.data.balances[sp.sender].balance >= params.weight, FA12_Error.InsufficientBalance)
         self.data.balances[sp.sender].balance = sp.as_nat(self.data.balances[sp.sender].balance - params.weight)
         self.data.totalSupply = sp.as_nat(self.data.totalSupply - params.weight)
         self.addImageIdIfNecessary(params.imageId)
         self.data.imageVPs[params.imageId] += params.weight
+        self.data.imageVoters[params.imageId][sp.sender] += params.weight
 
     @sp.entry_point
     def releaseTodaysVPs(self):
