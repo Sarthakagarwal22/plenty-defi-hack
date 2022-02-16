@@ -4,18 +4,28 @@ import {useWalletAddress} from '../../Context/walletContext';
 import {fetchPlentyBalanceOfUser} from '../../taquito-functions';
 
 import bg from '../../assets/images/bg.jpg';
+import refreshIcon from '../../assets/images/refresh.svg';
 import './homepage.css';
 
 const Homepage = () => {
 
     const walletAddress = useWalletAddress();
     const [plentyBalance, setPlentyBalance] = useState();
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchPlentyBalance = async () => {
+    const fetchPlentyBalance = async () => {
+        setLoading(true);
+        try{
             const response = await fetchPlentyBalanceOfUser(walletAddress);
             setPlentyBalance(response.userBalance);
+        }catch(e){
+            setPlentyBalance(0);
+        }finally{
+            setLoading(false);
         }
+    }
+
+    useEffect(() => {
         fetchPlentyBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -39,8 +49,8 @@ const Homepage = () => {
                 </a>
                 </div>
                 <br /><br />
-                { walletAddress && (plentyBalance !== undefined) && 
-                    <div className="left-description">You have {plentyBalance} PLENTY to stake and get more xPLENTY</div>
+                { walletAddress && 
+                    <div className="left-description">You have {loading ? 'loading...' : plentyBalance} PLENTY {!loading && <span onClick={fetchPlentyBalance} style={{cursor:'pointer', marginTop:'2px'}}><img src={refreshIcon} alt="refresh" /></span>} to stake and get more xPLENTY</div>
                 }
                 
             </div>

@@ -32,12 +32,12 @@
     padding-top: 5rem;
     padding-left: 0;
     justify-content: space-between;
-    width: 70%;
+    width: 80%;
 }
 
 .homepage-main-container .left-container .buttons-container .button{
     font-size: 1.5rem;
-    width: 20rem;
+    width: 17vw;
     color: white;
     background: linear-gradient(100.44deg,#f8b67f,#ff5451 33.57%,#ee1ec0 67.02%,#a02cfc 103.97%);
     border-radius: 5px;
