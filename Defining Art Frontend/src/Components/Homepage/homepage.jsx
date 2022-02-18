@@ -56,6 +56,17 @@ const Homepage = () => {
             </div>
             <div className="right-container">
                 <img className="background-image" src={bg} alt="background" />
+                <div className="right-header"> Voting </div>
+                <br />
+                <div className="right-description"> View all the images and then vote on each image, as many AQ (upto 100) you like, depending upon how much artistic do you find the image to be. Your AQ have a validity of one day and you can not update your vote. You get new images to vote on, every day.</div>
+                <div className="buttons-container">
+                <a href="/vote" target="_blank" rel="noreferrer">
+                <button type="button" className="button" >
+                    Start Voting
+                </button>
+                </a>
+                </div>
+                <br /><br />                
             </div>
         </div>
     )

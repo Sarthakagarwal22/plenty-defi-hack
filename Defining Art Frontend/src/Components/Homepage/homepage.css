@@ -16,9 +16,12 @@
     position: relative;
     z-index: 0;
     width: 50%;
+    padding-left: 2rem;
+    padding-top: 10%;
+    color: white;
 }
 
-.homepage-main-container .left-header{
+.homepage-main-container .left-header, .homepage-main-container .right-header{
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 1rem;
@@ -26,6 +29,10 @@
 
 .left-description{
     width:70%;
+}
+
+.right-description{
+    width:80%;
 }
 
 .homepage-main-container .left-container .buttons-container{
