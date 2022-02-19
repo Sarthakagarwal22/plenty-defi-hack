@@ -65,8 +65,8 @@ twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
                 const file = await createImageFromBase64(imageName, base64Img);
 
                 cid = await client.put(file);
-                const mongoId = await setImageInDb(prevDate, cid, tweet);
-                console.log(mongoId);
+                await setImageInDb(prevDate, cid, tweet);
+                // console.log(mongoId);
 
             } catch(e) {
                 console.log(e);
