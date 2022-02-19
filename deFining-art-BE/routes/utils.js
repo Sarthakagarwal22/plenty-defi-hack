@@ -18,6 +18,7 @@ utilRouter.post('/updateMetaData', async (req, res, next) => {
         throw new Error('Invalid Request');
     }
     try{
+        console.log(JSON.stringify(req.body));
         const metaData = await updateMetaData(req.body.updateObj);
         res.status(200).send(metaData);
     }catch(err){
