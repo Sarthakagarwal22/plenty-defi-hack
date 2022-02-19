@@ -4,7 +4,7 @@ export const getCategoryonDate = async (date) => {
     if(!date){
         throw new Error('Date is required');
     }
-    let events = await eventsModel.find({date: date});
+    let events = await eventsModel.findOne({date: date});
     if(events.length === 0){
         throw new Error('No events found on this date');
     }

@@ -27,20 +27,17 @@ export const getImagesFromDb = async (date) => {
     }
 }
 
-export const setImageInDb = async (date, imageData) => {
+export const setImageInDb = async (date, imageSrc, text) => {
     if(!(date && imageData)){
         throw new Error('Invalid reqeust');
     }
     
-    const imageArray = await getImagesFromDb(date);
-    if(imageArray.length === 10){ 
-        throw new Error('Image array is full');
-    }
-    imageArray.push(imageData);
     const dbUpdateObj = {
         date,
-        imagesArray: imageArray
+        imageSrc, text
     }
-    await imagesModel.findOneAndUpdate({date: date}, dbUpdateObj, {upsert: true});
+
+    const mongoImageId = await imagesModel.create(dbUpdateObj);
+    return mongoImageId;
 }
 
