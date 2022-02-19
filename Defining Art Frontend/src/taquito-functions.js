@@ -31,6 +31,34 @@ export const fetchPlentyBalanceOfUser = async (userAddress) => {
   }
 };
 
+export const fetchAQBalanceOfUser = async (userAddress) => {
+  try {
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setProvider(rpcNode);
+    const plentyContractAddress = 'KT1Mdk7TfHjbwb2ciTTsySj9gV9W9uc7HxCu';
+    let userBalance = 0;
+    const plentyTokenDecimal = 18;
+    const plentyContractInstance = await Tezos.contract.at(
+      plentyContractAddress
+    );
+    const storageInstance = await plentyContractInstance.storage();
+    const userDetails = await storageInstance.balances.get(userAddress);
+    userBalance = userDetails.balance;
+    userBalance =
+      userBalance.toNumber() / Math.pow(10, plentyTokenDecimal).toFixed(3);
+    return {
+      success: true,
+      userBalance,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      success: false,
+      userBalance: 0,
+    };
+  }
+};
+
 // This function checks if the wallet is connected with app to perform any operation.
 
 const CheckIfWalletConnected = async (wallet) => {
