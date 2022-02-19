@@ -3,23 +3,22 @@ import _ from 'lodash';
 import { Web3Storage } from 'web3.storage'
 
 import {getCategoryonDate} from '../services/calendar.js';
-import {setImageInDb} from '../services/images.js';
+import {setImageInDb, createImageFromBase64} from '../services/images.js';
 import {getMetaData} from '../services/utils.js';
+import {getTweetsFromCategoryAPI} from '../services/twitter.js';
+import {sendMailUpdate} from '../services/mail.js';
 import NodeCache from 'node-cache';
 import {format} from 'date-fns';
-import {Blob} from 'node:buffer';
 
 import axios from 'axios';
-import fs from 'fs';
 
 const twitterRouter = express.Router();
 
 const reqInProgress = "request-in-progress";
 const aiIPFSList = "ai_urls";
 const memCache = new NodeCache();
-const token = process.env.API_TOKEN
+const token = process.env.IPFS_API_TOKEN
 const client = new Web3Storage({ token })
-const tweets = ["Happy Birthday"]
 
 twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
     
@@ -31,66 +30,68 @@ twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
         prevDate = format(prevDate, "MM-dd");
 
         let prevDateCategory;
-        let tweetsFromPrevDay = ["", "", ""];
+        let tweetsFromPrevDay;
         try {
             prevDateCategory = await getCategoryonDate(prevDate);
             prevDateCategory = _.get(prevDateCategory, "category");
-            // call twitter api to get tweets
-            tweetsFromPrevDay = tweets; // some call to twitter dev api //= getTweetsFromCategory(prevDateCategory);
+            tweetsFromPrevDay = await getTweetsFromCategoryAPI(prevDateCategory);
         }
         catch (e) {
             console.log(e);
+            memCache.del(reqInProgress);
+            memCache.del(aiIPFSList);
+            next(e);
             return;
-            // next(e)
-        }  
-        let aiURLObj = await getMetaData(); // modify in parsing
+        }
+        let aiURLObj = await getMetaData();
         let aiURL = _.get(aiURLObj, "metaData.aiUrl");
         if (!aiURL) {
             throw new error("AI URL not found");
         }
         aiURL += "/generate";
-        res.send("Request started");
+        res.send("Request started\n");
         let aiImageGeneratedIPFSArray = [];
         let allImagesGeneratedSuccessfully = true;
-        for (let tweet of tweetsFromPrevDay) {
+        for (const [idx,tweet] of tweetsFromPrevDay.entries()) {
             let body = {
                 "prompts": tweet
             };
             let cid;
+            const imageName = "./ai-" + idx + ".png";;
             try {
-                const aiImageBin = await axios.post(aiURL, body);
-                
-                
-                // const file = await getFilesFromPath(_.get(aiImageBin, "data"));
-                const ffff = _.get(aiImageBin, "data");
-                await fs.writeFileSync("ai.png", ffff);
+                const aiImageResp = await axios.post(aiURL, body);
+                const base64Img = _.get(aiImageResp, "data.image_string");
 
-                console.log(typeof ffff);
-                // const fffBlob = new Blob(ffff);
-                const file = await getFilesFromPath("./ai.png");
-                cid = await client.put();
+                const file = await createImageFromBase64(imageName, base64Img);
+
+                cid = await client.put(file);
                 const mongoId = await setImageInDb(prevDate, cid, tweet);
+                console.log(mongoId);
+
             } catch(e) {
                 console.log(e);
                 allImagesGeneratedSuccessfully = false;
+                const mailSentResponse = await sendMailUpdate(imageName, "not successful", undefined, tweet);
+                memCache.del(reqInProgress);
+                memCache.del(aiIPFSList);
                 next(e);
                 return;
             }
-
-            console.log(cid);
+            const ipfsLink = "https://" + cid + ".ipfs.dweb.link" + imageName.substring(1);
+            console.log("ipfs: " + ipfsLink);
 
             if (memCache.get(aiIPFSList) === undefined) {
-                aiImageGeneratedIPFSArray = [cid];
+                aiImageGeneratedIPFSArray = [ipfsLink];
             } else {
-                memCache.get(aiIPFSList).push(cid);
+                memCache.get(aiIPFSList).push(ipfsLink);
             }
             await memCache.set(aiIPFSList, aiImageGeneratedIPFSArray);
+            const mailSentResponse = await sendMailUpdate(imageName, "successful", ipfsLink, tweet);
         }
         
         const finalAIImageIPFSArray = memCache.get(aiIPFSList);
         if (allImagesGeneratedSuccessfully) {
-            // send a mail
-            memCache.set(Date.now, "image ipfs array here");
+            memCache.set(prevDate, finalAIImageIPFSArray);
         }
 
         memCache.del(reqInProgress);

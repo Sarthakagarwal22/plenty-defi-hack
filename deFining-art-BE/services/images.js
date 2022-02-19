@@ -1,4 +1,7 @@
 import imagesModel from "../models/images.js";
+import fs from 'fs';
+import { getFilesFromPath } from 'web3.storage'
+
 
 import {imagesCache} from "../app.js";
 
@@ -28,10 +31,10 @@ export const getImagesFromDb = async (date) => {
 }
 
 export const setImageInDb = async (date, imageSrc, text) => {
-    if(!(date && imageData)){
+    if(!(date && imageSrc)){
         throw new Error('Invalid reqeust');
     }
-    
+
     const dbUpdateObj = {
         date,
         imageSrc, text
@@ -41,3 +44,17 @@ export const setImageInDb = async (date, imageSrc, text) => {
     return mongoImageId;
 }
 
+export const createImageFromBase64 = async (imageName, base64Str) => {
+
+    await fs.writeFileSync(imageName, base64Str, 'base64');
+    const file = await getFilesFromPath(imageName);
+    return file;
+}
+
+export const getAIGeneratedImageDetails = async (date) => {
+    try {
+        await imagesModel.find({date: date});
+    } catch(e) {
+        throw new Error("Error while fetching generated image list: " + e.message);
+    }
+}
