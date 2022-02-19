@@ -1,9 +1,10 @@
-import { imagesDB } from "../db/moongoose.js";
+import mongoose from 'mongoose';
 
-const imagesModel = imagesDB.model('images', {
-    date: String,
-    imgSrc: String,
-    text: String
-});
+const imagesModel = mongoose.model('images', mongoose.Schema({
+        date: String,
+        imgSrc: String,
+        text: String
+    })
+);
 
 export default imagesModel;

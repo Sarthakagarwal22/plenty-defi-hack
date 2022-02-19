@@ -1,8 +1,9 @@
-import {utilDB} from '../db/moongoose.js';
+import mongoose from 'mongoose';
 
-const utilModel = utilDB.model('configs', {
-    lastModified: Date,
-    metaData: {}
-})
+const utilModel = mongoose.model('configs', mongoose.Schema({
+        lastModified: Date,
+        metaData: {}
+    })
+);
 
 export default utilModel;

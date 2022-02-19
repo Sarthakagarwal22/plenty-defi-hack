@@ -1,8 +1,9 @@
-import { twitterDB } from "../db/moongoose.js";
+import mongoose from 'mongoose';
 
-const twitterModel = twitterDB.model('tweets', {
-    date: String,
-    tweets:[]
-})
+const twitterModel = mongoose.model('tweets', mongoose.Schema({
+        date: String,
+        tweets:[]
+    })
+);
 
 export default twitterModel;

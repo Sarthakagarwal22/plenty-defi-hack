@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {useWalletAddress} from '../../Context/walletContext';
 import {fetchPlentyBalanceOfUser, fetchAQBalanceOfUser} from '../../taquito-functions';
@@ -10,6 +11,7 @@ import './homepage.css';
 const Homepage = () => {
 
     const walletAddress = useWalletAddress();
+    const history = useHistory();
     const [plentyBalance, setPlentyBalance] = useState();
     const [loading, setLoading] = useState(true);
 
@@ -34,7 +36,7 @@ const Homepage = () => {
             const response = await fetchAQBalanceOfUser(walletAddress);
             setAQBalance(response.userBalance);
         }catch(e){
-            setPlentyBalance(0);
+            setAQBalance(0);
         }finally{
             setAQLoading(false);
         }
@@ -77,11 +79,9 @@ const Homepage = () => {
                 <br />
                 <div className="right-description">View all the images and then vote on each image, as many AQ (upto 100) you like, depending upon how much artistic do you find the image to be. You can not update your vote. New images every day.</div>
                 <div className="buttons-container">
-                <a href="/vote" target="_blank" rel="noreferrer">
-                <button type="button" className="button" >
+                <button type="button" className="button" onClick={() => history.push('/vote')}>
                     Start Voting
                 </button>
-                </a>
                 </div>
                 <br /><br />                
             </div>
