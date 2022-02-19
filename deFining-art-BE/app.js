@@ -1,6 +1,6 @@
 import express from 'express';
-// import dotenv from 'dotenv';
-// dotenv.config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import NodeCache from 'node-cache';
 
@@ -13,6 +13,7 @@ import imagesRouter from './routes/images.js';
 import errorHanlder from './utils/error-hanlder.js';
 
 import './db/moongoose.js';
+import { loadDB } from './db/moongoose.js';
 
 let app = express();
 
@@ -30,6 +31,7 @@ app.use(errorHanlder);
 export const imagesCache = new NodeCache({checkperiod: 0});
 export const tweetsCache = new NodeCache({checkperiod: 0});
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 5000, async () => {
+    await loadDB();
     console.log(`Server running on port 5000`);
 });
