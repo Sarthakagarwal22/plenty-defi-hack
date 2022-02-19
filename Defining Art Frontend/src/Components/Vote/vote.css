@@ -1,7 +1,7 @@
 .voting-container{
-    margin-top: 3rem;
+    margin-top: 5rem;
     background: #1e1e1e;
-    height: calc(100vh - 3rem)
+    height: calc(100vh - 5rem)
 }
 
 .aq{
@@ -9,6 +9,8 @@
     right: 15px;
     display: flex;
     align-items: center;
+    top: 5rem;
+    padding-top: 10px;
 }
 
 .aq-container{
@@ -18,4 +20,10 @@
     font-weight: bold;
     padding: 5px 10px;
     border-radius: 20px;
+}
+
+.container-header{
+    padding-left: 2rem;
+    color: white;
+    
 }

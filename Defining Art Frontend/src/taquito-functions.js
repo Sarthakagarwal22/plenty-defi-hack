@@ -59,6 +59,38 @@ export const fetchAQBalanceOfUser = async (userAddress) => {
   }
 };
 
+export const fetchAQPerImageOfUser = async (userAddress, imageId) => {
+  try {
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setProvider(rpcNode);
+    const definingArtContractAddress = 'KT1VVvsMh8pbZhVrjdZpsx6D3w9Jd7LMvkQ4';
+    const definingArtTokenDecimal = 18;
+    const definingArtContractInstance = await Tezos.contract.at(
+      definingArtContractAddress
+    );
+    const storageInstance = await definingArtContractInstance.storage();
+    const imageVotes = await storageInstance.imageVoters.get(imageId);
+    if(!imageVotes)
+    return {
+      success: true,
+      userVotes: 0,
+    };
+
+    let userVotes = await imageVotes.get(userAddress);
+    userVotes = userVotes.toNumber() / Math.pow(10, definingArtTokenDecimal).toFixed(3);
+    return {
+      success: true,
+      userVotes,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      success: false,
+      userVotes: 0,
+    };
+  }
+};
+
 export const releaseTodaysAQ = async () => {
   try {
     const options = {
@@ -136,23 +168,22 @@ export const voteOnImage = async (imageId, voteCount) => {
     const WALLET_RESP = await CheckIfWalletConnected(wallet);
 
     if (WALLET_RESP.success) {
-      const account = await wallet.client.getActiveAccount();
-      const userAddress = account.address;
       const Tezos = new TezosToolkit(rpcNode);
       Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       const definingArtContractAddress = 'KT1VVvsMh8pbZhVrjdZpsx6D3w9Jd7LMvkQ4';
+      const definingArtTokenDecimal = 18;
       const definingArtContractInstance = await Tezos.contract.at(
         definingArtContractAddress
       );
       let batch = null;
+      let vote = voteCount * Math.pow(10, definingArtTokenDecimal).toFixed(3)
       batch = await Tezos.wallet
         .batch()
         .withContractCall(
           definingArtContractInstance.methods.voteOnImageId(
-            userAddress,
             imageId,
-            voteCount
+            vote
           )
         );
       const batchOperation = await batch.send();

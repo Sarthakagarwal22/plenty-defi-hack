@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {useWalletAddress} from '../../Context/walletContext';
+import {useWalletAddress, useWalletAddressLoadingContext} from '../../Context/walletContext';
 import {fetchPlentyBalanceOfUser, fetchAQBalanceOfUser, releaseTodaysAQ} from '../../taquito-functions';
 
 import bg from '../../assets/images/bg.jpg';
@@ -11,56 +11,63 @@ import './homepage.css';
 const Homepage = () => {
 
     const walletAddress = useWalletAddress();
+    const walletAddressLoading = useWalletAddressLoadingContext();
+
     const navigate = useNavigate();
     const [plentyBalance, setPlentyBalance] = useState();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const [AQBalance, setAQBalance] = useState();
-    const [aQloading, setAQLoading] = useState(true);
+    const [aQloading, setAQLoading] = useState(false);
 
     const [AQReleaseLoading, setAQReleaseLoading] = useState(false);
 
     const fetchPlentyBalance = async () => {
+        if(loading)
+        return;
+
         setLoading(true);
         try{
             const response = await fetchPlentyBalanceOfUser(walletAddress);
             setPlentyBalance(response.userBalance);
-        }catch(e){
-            setPlentyBalance(0);
         }finally{
             setLoading(false);
         }
     }
     
     const fetchAQBalance = async () => {
+        if(loading)
+        return;
+
         setAQLoading(true);
         try{
             const response = await fetchAQBalanceOfUser(walletAddress);
             setAQBalance(response.userBalance);
-        }catch(e){
-            setAQBalance(0);
         }finally{
             setAQLoading(false);
         }
     }
 
     const releaseVpAndFetchAQBalance = async () => {
+        if(AQReleaseLoading)
+        return;
+
         try{
             setAQReleaseLoading(true);
             await releaseTodaysAQ();
             await fetchAQBalance();
-        }catch(e){
-            console.log(e);
         }finally{
             setAQReleaseLoading(false);
         }
     }
 
     useEffect(() => {
-        fetchPlentyBalance();
-        fetchAQBalance();
+        if(!walletAddressLoading && walletAddress){
+            fetchPlentyBalance();
+            fetchAQBalance();
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[walletAddressLoading, walletAddress])
 
     return(
         <div className="homepage-main-container">
