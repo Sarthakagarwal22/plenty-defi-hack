@@ -36,8 +36,9 @@ export const setImageInDb = async (date, imageSrc, text) => {
     }
 
     const dbUpdateObj = {
-        date,
-        imageSrc, text
+        "date": date, 
+        "imageSrc": imageSrc, 
+        "text": text
     }
 
     const mongoImageId = await imagesModel.create(dbUpdateObj);
@@ -53,7 +54,7 @@ export const createImageFromBase64 = async (imageName, base64Str) => {
 
 export const getAIGeneratedImageDetails = async (date) => {
     try {
-        await imagesModel.find({date: date});
+        return await imagesModel.find({date: date});
     } catch(e) {
         throw new Error("Error while fetching generated image list: " + e.message);
     }

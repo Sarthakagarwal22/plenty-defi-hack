@@ -1,19 +1,19 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const sendMailUpdate = async (imageName, imageStatusMessage, imageDetails, tweet) => {
-    let testAccount = await nodemailer.createTestAccount();
+    
     let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        service: 'Gmail',
         auth: {
-          user: testAccount.user, // generated ethereal user
-          pass: testAccount.pass, // generated ethereal password
+            user: String(process.env.SENDER_EMAIL),
+            pass: String(process.env.SENDER_EMAIL_PASSWORD)
         },
       });
       let htmlBody = imageDetails ? imageDetails + " generated for <i>" + tweet + "/<i>" : "Unable to generate image for <i>" + tweet + "</i>";
       let mailDetails = {
-          from: testAccount.user,
+          from: "definingarttez@gmail.com",
           to: "definingarttez@gmail.com",
           subject: "Image " + imageName + " was " + imageStatusMessage,
           html: "<b>"+ htmlBody + "</b>"
@@ -24,5 +24,6 @@ export const sendMailUpdate = async (imageName, imageStatusMessage, imageDetails
       } catch (e) {
           throw new Error("Error while sending mail for " + imageName + " : " + e);
       }
+
       return mailResponse;
 }
