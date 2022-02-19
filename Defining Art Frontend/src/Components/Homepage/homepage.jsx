@@ -1,8 +1,8 @@
 import React,{useEffect,useState} from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {useWalletAddress} from '../../Context/walletContext';
-import {fetchPlentyBalanceOfUser, fetchAQBalanceOfUser} from '../../taquito-functions';
+import {fetchPlentyBalanceOfUser, fetchAQBalanceOfUser, releaseTodaysAQ} from '../../taquito-functions';
 
 import bg from '../../assets/images/bg.jpg';
 import refreshIcon from '../../assets/images/refresh.svg';
@@ -11,12 +11,14 @@ import './homepage.css';
 const Homepage = () => {
 
     const walletAddress = useWalletAddress();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [plentyBalance, setPlentyBalance] = useState();
     const [loading, setLoading] = useState(true);
 
     const [AQBalance, setAQBalance] = useState();
     const [aQloading, setAQLoading] = useState(true);
+
+    const [AQReleaseLoading, setAQReleaseLoading] = useState(false);
 
     const fetchPlentyBalance = async () => {
         setLoading(true);
@@ -39,6 +41,18 @@ const Homepage = () => {
             setAQBalance(0);
         }finally{
             setAQLoading(false);
+        }
+    }
+
+    const releaseVpAndFetchAQBalance = async () => {
+        try{
+            setAQReleaseLoading(true);
+            await releaseTodaysAQ();
+            await fetchAQBalance();
+        }catch(e){
+            console.log(e);
+        }finally{
+            setAQReleaseLoading(false);
         }
     }
 
@@ -79,7 +93,10 @@ const Homepage = () => {
                 <br />
                 <div className="right-description">View all the images and then vote on each image, as many AQ (upto 100) you like, depending upon how much artistic do you find the image to be. You can not update your vote. New images every day.</div>
                 <div className="buttons-container">
-                <button type="button" className="button" onClick={() => history.push('/vote')}>
+                <button type="button" className="button" onClick={releaseVpAndFetchAQBalance}>
+                    {!AQReleaseLoading ? "Get Today's AQ" : 'Releasing AQ...'}
+                </button>
+                <button type="button" className="unstake_xplenty button" onClick={() => navigate('/vote')}>
                     Start Voting
                 </button>
                 </div>

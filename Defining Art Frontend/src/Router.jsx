@@ -1,11 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from './App.js';
+import Vote from './Components/Vote/vote.jsx';
 
 const routesArray = [
     {
         path: '/',
         component: <App />
+    },
+    {
+        path: '/vote',
+        component: <Vote />
     }
 ]
 

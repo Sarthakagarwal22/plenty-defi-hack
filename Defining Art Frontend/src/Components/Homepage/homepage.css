@@ -46,7 +46,7 @@
     border-radius: 5px;
 }
 
-.homepage-main-container .left-container .buttons-container .button.unstake_xplenty{
+.homepage-main-container .left-container .buttons-container .button.unstake_xplenty, .homepage-main-container .right-container .buttons-container .button.unstake_xplenty{
     background: #6202ef;
 }
 
