@@ -3,7 +3,7 @@ import { imagesDB } from "../db/moongoose.js";
 
 const imagesModel = imagesDB.model('images', mongoose.Schema({
     date: String,
-    imgSrc: String,
+    imageSrc: String,
     text: String
 })
 );

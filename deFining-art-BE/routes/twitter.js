@@ -57,7 +57,8 @@ twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
                 "prompts": tweet
             };
             let cid;
-            const imageName = "./ai-" + idx + ".png";;
+            const imageName = "./ai-" + idx + ".png";
+            let ipfsLink;
             try {
                 const aiImageResp = await axios.post(aiURL, body);
                 const base64Img = _.get(aiImageResp, "data.image_string");
@@ -65,7 +66,10 @@ twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
                 const file = await createImageFromBase64(imageName, base64Img);
 
                 cid = await client.put(file);
-                await setImageInDb(prevDate, cid, tweet);
+                ipfsLink = "https://" + cid + ".ipfs.dweb.link" + imageName.substring(1);
+                console.log("ipfs: " + ipfsLink);
+
+                await setImageInDb(prevDate, ipfsLink, tweet);
                 // console.log(mongoId);
 
             } catch(e) {
@@ -77,8 +81,6 @@ twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
                 next(e);
                 return;
             }
-            const ipfsLink = "https://" + cid + ".ipfs.dweb.link" + imageName.substring(1);
-            console.log("ipfs: " + ipfsLink);
 
             if (memCache.get(aiIPFSList) === undefined) {
                 aiImageGeneratedIPFSArray = [ipfsLink];

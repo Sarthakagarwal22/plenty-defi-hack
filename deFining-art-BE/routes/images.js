@@ -30,10 +30,12 @@ imagesRouter.post('/setondate', async (req, res, next) => {
     }
 })
 
-imagesRouter.post('/getGenerateImages', async (req, res, next) => {
+imagesRouter.post('/getGeneratedImages', async (req, res, next) => {
     if(!(req && req.body)){
         next(new Error('Invalid request'));
     };
+    let date = req.body.date;
+    date = getPrevDay(date);
     let aiGenerateImageDetails;
     try {
         aiGenerateImageDetails = await getAIGeneratedImageDetails(req.body.date);
@@ -47,5 +49,19 @@ imagesRouter.post('/getGenerateImages', async (req, res, next) => {
     });
     
 })
+
+const getPrevDay = (currDay) => {
+    let dateVars = currDay.split("-");
+    let day = parseInt(dateVars[1]);
+    let month = parseInt(dateVars[0]);
+    if (day == 1 && month == 1) {
+        return "12-31";
+    }
+    else if (day > 1) {
+        return String(dateVars[0]) + "-" + String(dateVars[1]-1);
+    } else {
+        return String(dateVars[0]-1) + "-" + String(dateVars[1]);
+    }
+}
 
 export default imagesRouter;
