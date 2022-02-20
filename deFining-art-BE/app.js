@@ -30,6 +30,6 @@ app.use(errorHanlder);
 export const imagesCache = new NodeCache({checkperiod: 0});
 export const tweetsCache = new NodeCache({checkperiod: 0});
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, async () => {
     console.log(`Server running on port 5000`);
 });

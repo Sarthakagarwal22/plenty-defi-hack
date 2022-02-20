@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from './App.js';
 import ImagesComponent from './Components/ImagesComponent/index';
+import Vote from './Components/Vote/vote.jsx';
 
 const routesArray = [
     {
@@ -11,7 +12,9 @@ const routesArray = [
     {
         path: '/image',
         component: <ImagesComponent />
-    }
+    },
+   { path: '/vote',
+    component: <Vote />}
 ]
 
 const RouterComponent = () => {
