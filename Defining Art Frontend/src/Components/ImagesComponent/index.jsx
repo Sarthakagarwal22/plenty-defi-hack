@@ -5,7 +5,7 @@ import './ImagesComponent.css';
 
 const ImagesComponent = ()=>{
     const [item, setItem] = useState(0);
-    const list = [
+    const imagesList = [
       {
         species: 'Amur Leopard',
         age: 2,
@@ -46,9 +46,8 @@ const ImagesComponent = ()=>{
 
     return(
         <div>
-        {/* Images = Landing component */}
-        <Images animals={list} item={item}/>
-        <Slider onItem={(index) => setItem(index)} size={list.length}></Slider>
+        <Images imagesList={imagesList} item={item}/>
+        <Slider onItem={(index) => setItem(index)} size={imagesList.length}></Slider>
       </div>
     )
 }
