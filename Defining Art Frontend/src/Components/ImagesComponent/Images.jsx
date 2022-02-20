@@ -5,13 +5,17 @@ import RangeSlider from '../Common/RangeSlider';
 import './Images.css';
 
 const SingleImage = (props)=>{
-  const {animal, index, item } = props;
+  const { imageObj:{
+    id,
+    imgSrc,
+    text,
+  } , index, item } = props;
 
-
+console.log(props);
 
   return(
-    <div style={{ width: '80%', height: '80%' }} key={index} hidden={index !== item}>
-            <img src={animal.url} className="landing__image" alt="Animal"></img>
+    <div style={{ width: '100%', height: '80%' }} key={index} hidden={index !== item}>
+            <img src={imgSrc} className="landing__image" alt="Animal"></img>
             <div className="landing__details">
               {/* <div className="landing__details__label">
                 SPECIES
@@ -19,10 +23,10 @@ const SingleImage = (props)=>{
               </div>
               <span id="title" className="landing__details__text landing__details__text-hidden">{animal.species}</span> */}
               <div className="landing__details__label">
-                TWEET
+                {text}
                 <span className="landing__details__label-bar"></span>
               </div>
-              <span id="age" className="landing__details__text landing__details__text-small">{'This is tweet'}</span>
+              <span id="age" className="landing__details__text landing__details__text-small">{text}</span>
               {/* <div className="landing__details__label">
                 BIO
                 <span className="landing__details__label-bar"></span>
@@ -73,9 +77,9 @@ images: []
 
   return (
      <div className="landing">
-      { imagesList.map((animal, index) => {
+      { imagesList.map((imageObj,index) => {
         return <> <SingleImage
-        animal = {animal}
+        imageObj={imageObj}
         index = {index}
          item = {item}
         />
