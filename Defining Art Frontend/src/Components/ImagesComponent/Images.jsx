@@ -1,7 +1,6 @@
 import React , { useEffect, useState } from 'react';
 import { TweenLite } from 'gsap';
 import { SliderEffect } from './SliderEffect';
-import  RangeSlider,{ useSlider } from '../Common/RangeSlider';
 import './Images.css';
 
 const SingleImage = (props)=>{
@@ -29,7 +28,6 @@ const SingleImage = (props)=>{
               </div>
               <span id="bio" className="landing__details__text landing__details__text-small">{animal.bio}</span>
             </div>
-            <RangeSlider {...inputSliderConfig} classes="additional-css-classes" />
           </div>
   )
 }
@@ -42,16 +40,6 @@ const Images = (props)=> {
     material: {},
 images: []
 });
-const [inputSlider, inputSliderConfig] = useSlider(
-  {
-    min: 0,
-    max: 100,
-    value: 10,
-    step: 2,
-    label: "HOOK SLIDER 1"
-  },
-  [inputSlider]
-);
 
   useEffect(() => {
     const parent = document.querySelector('.landing');
@@ -110,8 +98,6 @@ const [inputSlider, inputSliderConfig] = useSlider(
         animal = {animal}
         index = {index}
          item = {item}
-         inputSlider={inputSlider}
-         inputSliderConfig={inputSliderConfig}
         />
       })}
     </div>
