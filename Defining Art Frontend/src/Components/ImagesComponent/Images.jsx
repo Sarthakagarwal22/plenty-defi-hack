@@ -5,11 +5,12 @@ import RangeSlider from '../Common/RangeSlider';
 import './Images.css';
 
 /*
-TODO: on 
+TODO: 1.on votePerImage, if user has voted for an image, do not show the slider
+2.add app background to canvas background
 */
 
 const Images = (props)=> {
-  const { item, imagesList,votePerImageLoaded,voteForImage } = props;
+  const { item, imagesList,votePerImageLoaded,voteForImage,votePerImage } = props;
   const [effects, setEffects] = useState({
     material: {},
 images: []
