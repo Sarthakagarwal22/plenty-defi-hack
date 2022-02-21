@@ -25,5 +25,17 @@
 .container-header{
     padding-left: 2rem;
     color: white;
-    
+    padding-top: 1rem;
+    text-align: center;
+    font-size: 4rem;
+    font-weight: lighter;
+}
+
+.loading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 5rem);
+    color: white;
+    font-size: 3rem;
 }

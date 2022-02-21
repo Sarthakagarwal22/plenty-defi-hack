@@ -44,7 +44,7 @@ images: []
       {imagesList.map((imageObj,index) => {
         return (
           <div style={{ width: '100%', height: '80%' }} key={index} hidden={index !== item}>
-            <img src={imageObj.imgSrc} className="landing__image" alt="Animal"></img>
+            <img src={imageObj.imageSrc} className="landing__image" alt="Animal"></img>
             <div className="landing__details">
               <div className="landing__details__label">
                 {imageObj.text}

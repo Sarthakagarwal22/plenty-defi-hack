@@ -1,5 +1,5 @@
 {
-  "name": "react-taquito-beacon-example",
+  "name": "defining-art",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.26.0",
     "gsap": "^3.9.1",
+    "moment": "^2.29.1",
     "rc-slider": "^9.7.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
