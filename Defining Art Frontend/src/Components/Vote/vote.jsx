@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import {useWalletAddress, useWalletAddressLoadingContext} from '../../Context/walletContext';
 // import {fetchAQBalanceOfUser, voteOnImage, fetchAQPerImageOfUser} from '../../taquito-functions';
 import {fetchAQBalanceOfUser} from '../../taquito-functions';
-
+import ImagesComponent from '../ImagesComponent'
 import refreshIcon from '../../assets/images/refresh.svg';
 import './vote.css';
 
@@ -69,7 +69,7 @@ const Vote = (props) => {
                 },
                 {
                     id: "24567",
-                    imgSrc: "https://bafybeicf3hrgqegex6uxm5p5cdvk5okvm2y7m7kjtckhafs6nqysr5cspa.ipfs.dweb.link/ai.png",
+                    imgSrc: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/tiger2.jpg",
                     text: "Happy Birthday",
                 },
                 {
@@ -82,6 +82,26 @@ const Vote = (props) => {
                     imgSrc: "https://bafybeicf3hrgqegex6uxm5p5cdvk5okvm2y7m7kjtckhafs6nqysr5cspa.ipfs.dweb.link/ai.png",
                     text: "Happy Birthday",
                 },
+                // {
+                //             id: "1234567898765",
+                //             imgSrc: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/leopard2.jpg",
+                //             text: "Happy Birthday",
+                //         },
+                //         {
+                //             id: "24567",
+                //             imgSrc: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/lion2.jpg',
+                //             text: "Happy Birthday",
+                //         },
+                //         {
+                //             id: "3",
+                //             imgSrc: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/tiger2.jpg',
+                //             text: "Happy Birthday",
+                //         },
+                //         {
+                //             id: "4",
+                //             imgSrc: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/tiger2.jpg',
+                //             text: "Happy Birthday",
+                //         },
             ].slice()
             setImagesArray(imagesArray);
             // setImagesArray(imagesArray.data.imagesArray);
@@ -120,7 +140,12 @@ const Vote = (props) => {
                 </div>
                 {!aQloading && <span onClick={fetchAQBalance} style={{cursor:'pointer'}}><img src={refreshIcon} alt="refresh" /></span>}
             </div>
-            <div className="voting-images-container"></div>
+            {imagesArray.length ? 
+                <ImagesComponent imagesList={imagesArray} />
+                // <ImagesComponent />
+                :
+                (null)
+            }
         </div>
     )
 
