@@ -78,8 +78,6 @@ twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
                 const mailSentResponse = await sendMailUpdate(imageName, "not successful", undefined, tweet);
                 memCache.del(reqInProgress);
                 memCache.del(aiIPFSList);
-                next(e);
-                return;
             }
 
             if (memCache.get(aiIPFSList) === undefined) {
