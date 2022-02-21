@@ -8,7 +8,7 @@ const MAX = 10;
 const RangeSlider = (props)=> {
     const [rangeVal,setRangeVal] = useState(0)
   return (
-    <div style={{ marginLeft: '28rem'}}>
+    <div style={{ marginLeft: '43rem'}}>
         <p style={{color:'white'}}>{rangeVal}</p>
      <Slider
           min={MIN}
