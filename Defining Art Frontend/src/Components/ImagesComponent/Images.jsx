@@ -4,8 +4,12 @@ import { SliderEffect } from './SliderEffect';
 import RangeSlider from '../Common/RangeSlider';
 import './Images.css';
 
+/*
+TODO: on 
+*/
+
 const Images = (props)=> {
-  const { item, imagesList } = props;
+  const { item, imagesList,votePerImageLoaded,voteForImage } = props;
   const [effects, setEffects] = useState({
     material: {},
 images: []
@@ -43,11 +47,11 @@ images: []
     <div className="landing">
       {imagesList.map((imageObj,index) => {
         return (
-          <div style={{ width: '100%', height: '80%' }} key={index} hidden={index !== item}>
+          <div style={{ width: '100%', height: '48%' }} key={index} hidden={index !== item}>
             <img src={imageObj.imageSrc} className="landing__image" alt="Animal"></img>
             <div className="landing__details">
               <div className="landing__details__label">
-                {imageObj.text}
+                {'Tweet text'}
                 <span className="landing__details__label-bar"></span>
               </div>
               <span id="age" className="landing__details__text landing__details__text-small">{imageObj.text}</span>
@@ -55,7 +59,7 @@ images: []
           </div>
         )}
       )}      
-      <RangeSlider/>
+     {votePerImageLoaded && <RangeSlider voteForImage={voteForImage}/>}
     </div>
   )
 }

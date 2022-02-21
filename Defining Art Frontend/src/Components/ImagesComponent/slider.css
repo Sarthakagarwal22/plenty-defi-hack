@@ -1,11 +1,12 @@
 .slider {
     position: absolute;
-    right: 25%;
+    right: 15%;
     z-index: 10;
+    margin-top: 12rem;
 }
 .slider__item {
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
     background-color: gray;
     margin-bottom: 25px;
     border-radius: 100%;

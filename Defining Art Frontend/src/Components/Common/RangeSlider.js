@@ -3,14 +3,19 @@ import Slider, { createSliderWithTooltip } from "rc-slider";
 import 'rc-slider/assets/index.css';
 const STEP = 1;
 const MIN = 0;
-const MAX = 10;
+const MAX = 100;
 
-const RangeSlider = (props)=> {
-    const [rangeVal,setRangeVal] = useState(0)
+const RangeSlider = ({voteForImage})=> {
+    const [rangeVal,setRangeVal] = useState(0);
+
+    const onSubmit = () =>{
+      voteForImage(rangeVal);
+    }
   return (
-    <div style={{ marginLeft: '43rem'}}>
+    <div style={{ marginLeft: '27rem', display:'flex', flexDirection:'column'}}>
         <p style={{color:'white'}}>{rangeVal}</p>
      <Slider
+      style={{width:'140%'}}
           min={MIN}
           max={MAX}
           value={rangeVal}
@@ -32,6 +37,12 @@ const RangeSlider = (props)=> {
             background: "none"
           }}
         />
+        <button
+        onClick={onSubmit}
+        style={{marginTop:'0.2rem', width:'6rem', marginLeft:'6rem'}}
+        >
+          Submit
+          </button>
     </div>
   )
 }
