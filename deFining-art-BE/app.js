@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import NodeCache from 'node-cache';
-
+import cors from 'cors';
 import healthRouter from './routes/health.js';
 import twitterRouter from './routes/twitter.js';
 import calendarRouter from './routes/calendar.js';
@@ -18,6 +18,7 @@ let app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cors());
 
 app.use('/health', healthRouter);
 app.use('/twitter', twitterRouter);
