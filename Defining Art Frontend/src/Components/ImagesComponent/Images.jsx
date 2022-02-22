@@ -64,19 +64,16 @@ const getImageId = () =>{
           </div>
         )}
       )}      
-     {votePerImageLoaded ? <RangeSlider getImageId={getImageId} voteForImage={voteForImage} votePerImage={votePerImage}/> : <h3
+     {false ? <RangeSlider getImageId={getImageId} voteForImage={voteForImage} votePerImage={votePerImage}/> : <h2
      style={{
-      left: '28%',
       position: 'fixed',
       bottom: '20px',
-      width: '55%',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      textAlign: 'center',
       color:'white',
+      width:'100%'
      }}>
-       Loading your Votes, browse images till then
-       </h3>}
+       Loading your Votes, you can browse images till then
+       </h2>}
     </div>
   )
 }
