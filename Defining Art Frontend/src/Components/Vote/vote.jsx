@@ -62,7 +62,7 @@ const Vote = (props) => {
     const getImagesArray = async () => {
         try{
             const imagesArray = await axios.post(`${apiBaseUrl}/images/getGeneratedImages`, {
-                date: moment('2022-02-19').format('MM-DD')
+                date: moment().subtract(1, 'days').format('MM-DD')
             });
             setImagesArray(imagesArray.data.imageDetails);
         }finally{

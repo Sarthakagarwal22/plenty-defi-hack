@@ -15,7 +15,7 @@
     transform: translate(-50%, -50%);
     /* width: 600px !important;
     height: 600px !important; */
-    margin-top: 3rem;
+    margin-top: 5rem;
 }
 @media (max-width: 841px) {
     .landing__animal-1, .landing__animal-2 {

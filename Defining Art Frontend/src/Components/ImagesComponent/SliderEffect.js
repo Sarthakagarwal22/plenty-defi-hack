@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { Texture } from "three";
 
 export const SliderEffect = (opts) => {
 
@@ -55,12 +54,19 @@ export const SliderEffect = (opts) => {
   }
 
   renderH = canvasHeight;
+  console.log(
+    `canvasWidth: ${canvasWidth}`,
+    `canvasHeight: ${canvasHeight}`,
+    `parent: ${parent}`,
+    `renderWidth: ${renderWidth}`,
+    `renderHeight: ${renderHeight}`,
+  )
 
   let renderer = new THREE.WebGLRenderer({
       antialias: false,
   });
 
-  renderer.setClearColor( 0x23272A, 1.0 );
+  renderer.setClearColor( 0x1e1e1e, 1.0 );
   renderer.setSize( renderW, renderH );
   parent.appendChild( renderer.domElement );
 
@@ -75,12 +81,12 @@ export const SliderEffect = (opts) => {
   });
 
   let scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0x23272A );
+  scene.background = new THREE.Color( 0x1e1e1e );
   let camera = new THREE.OrthographicCamera(
-      renderWidth / -2,
-      renderWidth / 2,
-      renderHeight / 2,
-      renderHeight / -2,
+      -renderWidth/2,
+      renderWidth/2,
+      renderHeight/4,
+      -renderHeight/2,
       1,
       1000
   );
@@ -99,8 +105,8 @@ export const SliderEffect = (opts) => {
   });
 
   let geometry = new THREE.PlaneBufferGeometry(
-      parent.offsetWidth,
-      parent.offsetHeight,
+    renderWidth/3,
+    renderHeight/2,
       1
   );
   let object = new THREE.Mesh(geometry, mat);
