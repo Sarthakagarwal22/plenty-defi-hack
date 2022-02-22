@@ -57,8 +57,15 @@ const Vote = (props) => {
             return;
         }
         
-        await voteOnImage(imageId, voteCount);
-        setAQBalance(AQBalance - voteCount);
+        try{
+            await voteOnImage(imageId, voteCount);
+            setAQBalance(AQBalance - voteCount);
+            const newVotePerImage = {...votePerImage};
+            newVotePerImage[imageId] = voteCount;
+            setVotePerImage(newVotePerImage);
+        }catch(e){
+            alert('Error while voting, please try again');
+        }
     }
 
     const getImagesArray = async () => {
