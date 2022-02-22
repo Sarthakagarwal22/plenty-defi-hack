@@ -11,8 +11,7 @@ const RangeSlider = ({voteForImage,getImageId,votePerImage})=> {
     const onSubmit = () =>{
       voteForImage(imageId,rangeVal);
     }
-
-    if(votePerImage.imageId)
+    if(!votePerImage[imageId])
   return (
     <div style={{
       left: '28%',
@@ -65,17 +64,15 @@ const RangeSlider = ({voteForImage,getImageId,votePerImage})=> {
   )
   else 
   return(
-    <div style={{
-      left: '28%',
+    <h2 style={{
       position: 'fixed',
-      bottom: '10px',
-      width: '55%',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      bottom: '20px',
+      textAlign: 'center',
+      color:'white',
+      width:'100%'
     }}>
-      {`You Have already voted ${votePerImage.imageId} AQ on this image`}
-    </div>
+      {`You Have already voted ${votePerImage[imageId]} AQ on this image`}
+    </h2>
   )
 }
 
