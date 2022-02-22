@@ -20,6 +20,7 @@ const Vote = (props) => {
     const [aQloading, setAQLoading] = useState(false);
     const [votePerImage, setVotePerImage] = useState();
     const [votePerImageLoaded, setVotePerImageLoaded] = useState(false);
+    const [imageVotingInProgress, setImageVotingInProgress] = useState(false);
 
     const fetchAQBalance = async () => {
         if(aQloading)
@@ -56,16 +57,15 @@ const Vote = (props) => {
             alert('You do not have enough AQ to vote');
             return;
         }
-        
-        try{
-            await voteOnImage(imageId, voteCount);
+        setImageVotingInProgress(true);
+        const {success} = await voteOnImage(imageId, voteCount);
+        if(success){
             setAQBalance(AQBalance - voteCount);
             const newVotePerImage = {...votePerImage};
             newVotePerImage[imageId] = voteCount;
             setVotePerImage(newVotePerImage);
-        }catch(e){
-            alert('Error while voting, please try again');
         }
+        setImageVotingInProgress(false);
     }
 
     const getImagesArray = async () => {
@@ -115,6 +115,7 @@ const Vote = (props) => {
                         voteForImage={voteForImage}
                         votePerImage={votePerImage}
                         votePerImageLoaded={votePerImageLoaded}
+                        imageVotingInProgress={imageVotingInProgress}
                     />
                     :
                     <div className="loading-container">Couldn't Load Images</div>

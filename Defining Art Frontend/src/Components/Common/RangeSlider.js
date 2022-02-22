@@ -1,13 +1,11 @@
 import React, {useState} from 'react';
-import Slider, { createSliderWithTooltip } from "rc-slider";
+import Slider from "rc-slider";
 import 'rc-slider/assets/index.css';
-const STEP = 1;
 const MIN = 0;
 const MAX = 100;
 
-const RangeSlider = ({voteForImage,getImageId,votePerImage})=> {
+const RangeSlider = ({voteForImage,imageId,votePerImage})=> {
     const [rangeVal,setRangeVal] = useState(0);
-    const [imageId,setImageId] = useState(getImageId())
     const onSubmit = () =>{
       voteForImage(imageId,rangeVal);
     }
@@ -55,7 +53,16 @@ const RangeSlider = ({voteForImage,getImageId,votePerImage})=> {
         <div>
         <button
         onClick={onSubmit}
-        style={{marginTop:'0.2rem', width:'6rem', marginLeft:'1rem'}}
+        style={{fontSize: '1rem',
+          width: '7rem',
+          color: 'white',
+          background: '#6202ef',
+          borderRadius: '5px',
+          padding: '10px',
+          marginLeft: '10px',
+          border: 'none',
+          fontWeight: 'bold',
+        }}
         >
           Submit
           </button>

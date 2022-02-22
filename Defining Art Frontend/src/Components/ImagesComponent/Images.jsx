@@ -10,15 +10,12 @@ TODO: 1.on votePerImage, if user has voted for an image, do not show the slider
 */
 
 const Images = (props)=> {
-  const { item, imagesList,votePerImageLoaded,voteForImage,votePerImage } = props;
+  const { item, imagesList,votePerImageLoaded,voteForImage,votePerImage,imageVotingInProgress } = props;
   const [effects, setEffects] = useState({
     material: {},
 images: []
 });
 
-const getImageId = () =>{
-  return imagesList[item]?._id
-}
 
   useEffect(() => {
     const parent = document.querySelector('.landing');
@@ -63,8 +60,9 @@ const getImageId = () =>{
               </div>
           </div>
         )}
-      )}      
-     {votePerImageLoaded ? <RangeSlider getImageId={getImageId} voteForImage={voteForImage} votePerImage={votePerImage}/> : <h2
+      )}
+      {!votePerImageLoaded ?  
+     (<h2
      style={{
       position: 'fixed',
       bottom: '20px',
@@ -72,8 +70,22 @@ const getImageId = () =>{
       color:'white',
       width:'100%'
      }}>
-       Loading your Votes, you can browse images till then
-       </h2>}
+        Loading your Votes, you can browse images till then
+       </h2>)
+        :
+        imageVotingInProgress ? (<h2
+        style={{
+         position: 'fixed',
+         bottom: '20px',
+         textAlign: 'center',
+         color:'white',
+         width:'100%'
+        }}>
+          Voting in progress
+          </h2>)
+          :
+          (<RangeSlider imageId={imagesList[item]?._id} voteForImage={voteForImage} votePerImage={votePerImage}/>)
+      }
     </div>
   )
 }
