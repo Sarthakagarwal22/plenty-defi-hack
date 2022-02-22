@@ -24,3 +24,7 @@ iframe{
 }
 
 canvas { width: 70% !important; height: 70% !important; display: block; }
+
+.rc-slider-handle {
+  bottom: -8px;
+}

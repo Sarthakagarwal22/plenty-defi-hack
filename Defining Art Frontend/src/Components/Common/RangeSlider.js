@@ -5,17 +5,27 @@ const STEP = 1;
 const MIN = 0;
 const MAX = 100;
 
-const RangeSlider = ({voteForImage})=> {
+const RangeSlider = ({voteForImage,getImageId,votePerImage})=> {
     const [rangeVal,setRangeVal] = useState(0);
-
+    const [imageId,setImageId] = useState(getImageId())
     const onSubmit = () =>{
-      voteForImage(rangeVal);
+      voteForImage(imageId,rangeVal);
     }
+
+    if(votePerImage.imageId)
   return (
-    <div style={{ marginLeft: '27rem', display:'flex', flexDirection:'column'}}>
-        <p style={{color:'white'}}>{rangeVal}</p>
+    <div style={{
+      left: '28%',
+    position: 'fixed',
+    bottom: '10px',
+    width: '55%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    }}>
+      
      <Slider
-      style={{width:'140%'}}
+      style={{}}
           min={MIN}
           max={MAX}
           value={rangeVal}
@@ -23,7 +33,7 @@ const RangeSlider = ({voteForImage})=> {
             setRangeVal(val)
           }}
           railStyle={{
-            height: 10
+            height: 6
           }}
           handleStyle={{
             height: 28,
@@ -36,13 +46,35 @@ const RangeSlider = ({voteForImage})=> {
           trackStyle={{
             background: "none"
           }}
+          dotStyle={{
+            display:'flex',
+            alignItems:'center',
+            alignSelf:'center'
+          }}
         />
+          <p style={{color:'white', marginLeft:'10px'}}>{rangeVal}</p>
+        <div>
         <button
         onClick={onSubmit}
-        style={{marginTop:'0.2rem', width:'6rem', marginLeft:'6rem'}}
+        style={{marginTop:'0.2rem', width:'6rem', marginLeft:'1rem'}}
         >
           Submit
           </button>
+          </div>
+    </div>
+  )
+  else 
+  return(
+    <div style={{
+      left: '28%',
+      position: 'fixed',
+      bottom: '10px',
+      width: '55%',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }}>
+      {`You Have already voted ${votePerImage.imageId} AQ on this image`}
     </div>
   )
 }
