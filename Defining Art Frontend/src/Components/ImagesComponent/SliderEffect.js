@@ -86,7 +86,7 @@ export const SliderEffect = (opts) => {
       -renderWidth/2,
       renderWidth/2,
       renderHeight/4,
-      -renderHeight/2,
+      -renderHeight/3,
       1,
       1000
   );
@@ -106,7 +106,7 @@ export const SliderEffect = (opts) => {
 
   let geometry = new THREE.PlaneBufferGeometry(
     renderWidth/3,
-    renderHeight/2,
+    renderHeight/3,
       1
   );
   let object = new THREE.Mesh(geometry, mat);
