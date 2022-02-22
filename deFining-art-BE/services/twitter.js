@@ -21,7 +21,7 @@ export const getTweetsFromCategoryAPI = async (category) => {
     prevDate.setDate(prevDate.getDate() - 1);
     prevDate.setUTCHours(23, 59, 59, 999);
     
-    category = '#' + category.replace(" ", "").toLowerCase() + " lang:en -is:retweet -is:quote -is:reply";
+    category = '#' + category.replace(" ", "").toLowerCase() + " lang:en -is:retweet -is:quote -is:reply -has:links";
     let response = [];
     let apiOptions = {
         headers: {

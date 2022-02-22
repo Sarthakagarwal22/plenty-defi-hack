@@ -54,7 +54,7 @@ twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
         let allImagesGeneratedSuccessfully = true;
         for (const [idx,tweet] of tweetsFromPrevDay.entries()) {
             let body = {
-                "prompts": tweet
+                "prompts": tweet.replace(/:/g, ""),
             };
             let cid;
             const imageName = "./ai-" + idx + ".png";
@@ -78,8 +78,7 @@ twitterRouter.get('/getTweetsForDate', async (req, res, next) => {
                 const mailSentResponse = await sendMailUpdate(imageName, "not successful", undefined, tweet);
                 memCache.del(reqInProgress);
                 memCache.del(aiIPFSList);
-                next(e);
-                return;
+                continue;
             }
 
             if (memCache.get(aiIPFSList) === undefined) {
