@@ -50,6 +50,8 @@ const Vote = (props) => {
     }
 
     const voteForImage = async (imageId, voteCount) => {
+        if(!imageId || !voteCount)
+            return;
         if(AQBalance < voteCount){
             alert('You do not have enough AQ to vote');
             return;
