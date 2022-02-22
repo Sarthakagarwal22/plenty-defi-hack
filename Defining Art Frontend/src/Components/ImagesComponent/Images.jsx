@@ -64,7 +64,7 @@ const getImageId = () =>{
           </div>
         )}
       )}      
-     {false ? <RangeSlider getImageId={getImageId} voteForImage={voteForImage} votePerImage={votePerImage}/> : <h2
+     {votePerImageLoaded ? <RangeSlider getImageId={getImageId} voteForImage={voteForImage} votePerImage={votePerImage}/> : <h2
      style={{
       position: 'fixed',
       bottom: '20px',
