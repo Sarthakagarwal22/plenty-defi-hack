@@ -16,6 +16,10 @@ const Images = (props)=> {
 images: []
 });
 
+const getImageId = () =>{
+  return imagesList[item]?._id
+}
+
   useEffect(() => {
     const parent = document.querySelector('.landing');
     const images = document.querySelectorAll('.landing__image');
@@ -60,7 +64,19 @@ images: []
           </div>
         )}
       )}      
-     {votePerImageLoaded && <RangeSlider voteForImage={voteForImage}/>}
+     {votePerImageLoaded ? <RangeSlider getImageId={getImageId} voteForImage={voteForImage} votePerImage={votePerImage}/> : <h3
+     style={{
+      left: '28%',
+      position: 'fixed',
+      bottom: '20px',
+      width: '55%',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      color:'white',
+     }}>
+       Loading your Votes, browse images till then
+       </h3>}
     </div>
   )
 }
