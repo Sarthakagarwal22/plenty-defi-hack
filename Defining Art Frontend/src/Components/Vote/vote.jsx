@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import moment from 'moment';
+// import moment from 'moment';
 
 import {useWalletAddress, useWalletAddressLoadingContext} from '../../Context/walletContext';
 import {fetchAQBalanceOfUser, voteOnImage, fetchAQPerImageOfUser} from '../../taquito-functions';
@@ -71,7 +71,8 @@ const Vote = (props) => {
     const getImagesArray = async () => {
         try{
             const imagesArray = await axios.post(`${apiBaseUrl}/images/getGeneratedImages`, {
-                date: moment().subtract(2, 'days').format('MM-DD')
+                // date: moment().subtract(1, 'days').format('MM-DD')
+                date: '02-21'
             });
             setImagesArray(imagesArray.data.imageDetails);
         }finally{

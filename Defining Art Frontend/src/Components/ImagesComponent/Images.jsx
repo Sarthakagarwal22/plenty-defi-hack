@@ -68,7 +68,8 @@ images: []
       bottom: '20px',
       textAlign: 'center',
       color:'white',
-      width:'100%'
+      width:'100%',
+      zIndex: '5'
      }}>
         Loading your Votes, you can browse images till then
        </h2>)
